@@ -68,8 +68,6 @@
 #include "gtest/internal/custom/gtest.h"
 #include "gtest/internal/gtest-port.h"
 
-#ifdef GTEST_OS_LINUX
-
 #include <fcntl.h>   // NOLINT
 #include <limits.h>  // NOLINT
 #include <sched.h>   // NOLINT
@@ -81,43 +79,20 @@
 
 #include <string>
 
-#elif defined(GTEST_OS_ZOS)
-#include <sys/time.h>  // NOLINT
-
-// On z/OS we additionally need strings.h for strcasecmp.
-#include <strings.h>   // NOLINT
-
-#elif defined(GTEST_OS_WINDOWS_MOBILE)  // We are on Windows CE.
-
-#include <windows.h>  // NOLINT
-#undef min
-
-#elif defined(GTEST_OS_WINDOWS)  // We are on Windows proper.
-
-#include <windows.h>  // NOLINT
-#undef min
-
-#ifdef _MSC_VER
-#include <crtdbg.h>  // NOLINT
-#endif
 
 #include <io.h>         // NOLINT
 #include <sys/stat.h>   // NOLINT
 #include <sys/timeb.h>  // NOLINT
 #include <sys/types.h>  // NOLINT
 
-#ifdef GTEST_OS_WINDOWS_MINGW
-#include <sys/time.h>  // NOLINT
-#endif                 // GTEST_OS_WINDOWS_MINGW
 
-#else
 
 // cpplint thinks that the header is already included, so we want to
 // silence it.
 #include <sys/time.h>  // NOLINT
 #include <unistd.h>    // NOLINT
 
-#endif  // GTEST_OS_LINUX
+
 
 #if GTEST_HAS_EXCEPTIONS
 #include <stdexcept>
@@ -132,28 +107,9 @@
 
 #include "src/gtest-internal-inl.h"
 
-#ifdef GTEST_OS_WINDOWS
-#define vsnprintf _vsnprintf
-#endif  // GTEST_OS_WINDOWS
 
-#ifdef GTEST_OS_MAC
-#ifndef GTEST_OS_IOS
-#include <crt_externs.h>
-#endif
-#endif
 
-#ifdef GTEST_HAS_ABSL
-#include "absl/container/flat_hash_set.h"
-#include "absl/debugging/failure_signal_handler.h"
-#include "absl/debugging/stacktrace.h"
-#include "absl/debugging/symbolize.h"
-#include "absl/flags/parse.h"
-#include "absl/flags/usage.h"
-#include "absl/strings/str_cat.h"
-#include "absl/strings/str_replace.h"
-#include "absl/strings/string_view.h"
-#include "absl/strings/strip.h"
-#endif  // GTEST_HAS_ABSL
+
 
 // Checks builtin compiler feature |x| while avoiding an extra layer of #ifdefs
 // at the callsite.
